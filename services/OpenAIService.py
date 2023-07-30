@@ -10,14 +10,14 @@ class OpenAIService(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.Cog.listener()
-    async def on_ready(self):
-        print(f"{self.bot.user} has connected to Discord!")
+    # @commands.Cog.listener()
+    # async def on_ready(self):
+    #     print(f"{self.bot.user} has connected to Discord!")
 
     @commands.Cog.listener()
     async def on_message(self, message):
         print(message)
-        if message.author == self.user:
+        if message.author == self.bot.user:
             return
 
         await message.channel.send(
