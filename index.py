@@ -1,5 +1,6 @@
 import os
 import asyncio
+import sys
 
 import nest_asyncio
 import discord
@@ -8,8 +9,18 @@ from discord.ext import commands
 
 from dotenv import load_dotenv
 
-load_dotenv()
-TOKEN = os.getenv("DISCORD_TOKEN")
+try:
+    if sys.argv[1] == "prod":
+        print("Running in prod mode")
+        TOKEN = os.environ["DISCORD_TOKEN"]
+    else:
+        print("Running in dev mode")
+        load_dotenv()
+        TOKEN = os.getenv("DISCORD_TOKEN")
+except IndexError:
+    print("Running in dev mode")
+    load_dotenv()
+    TOKEN = os.getenv("DISCORD_TOKEN")
 
 intents = discord.Intents.all()
 
