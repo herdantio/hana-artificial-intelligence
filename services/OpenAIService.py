@@ -16,7 +16,6 @@ class OpenAIService(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        print(message)
         if message.author == self.bot.user:
             return
 
