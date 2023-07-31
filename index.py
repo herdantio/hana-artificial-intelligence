@@ -1,18 +1,31 @@
 import os
+import asyncio
+import sys
+
+import nest_asyncio
 import discord
+from discord.ext import commands
 
-from MyClient import MyClient
 
-from dotenv import load_dotenv
+from utils.EnvironmentLoader import load_env
 
-load_dotenv()
-TOKEN = os.getenv("DISCORD_TOKEN")
+env = load_env()
+TOKEN = env["DISCORD_TOKEN"]
 
 intents = discord.Intents.all()
-client = MyClient(intents=intents)
 
-# python try catch
-try:
-    client.run(TOKEN)
-except Exception as e:
-    print(e)
+
+bot = commands.Bot(command_prefix="!", intents=intents)
+
+
+async def main():
+    await bot.load_extension("cogs.MainCog")
+    bot.run(TOKEN)
+
+
+if __name__ == "__main__":
+    try:
+        nest_asyncio.apply()
+        asyncio.run(main())
+    except Exception as e:
+        print(e)
