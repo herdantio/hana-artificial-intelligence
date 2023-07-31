@@ -1,18 +1,23 @@
 # import discord
 from discord.ext import commands
-from dotenv import load_dotenv
+import os
 
-load_dotenv()
-# GUILD = os.getenv("DISCORD_GUILD")
+from utils.EnvironmentLoader import load_env
+
+env = load_env()
+
+DISCORD_GENERAL_CHANNEL_ID = env["DISCORD_GENERAL_CHANNEL_ID"]
 
 
-class OpenAIService(commands.Cog):
+class MainCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    # @commands.Cog.listener()
-    # async def on_ready(self):
-    #     print(f"{self.bot.user} has connected to Discord!")
+    @commands.Cog.listener()
+    async def on_ready(self):
+        await self.bot.get_channel(DISCORD_GENERAL_CHANNEL_ID).send(
+            f"{self.bot.user} has connected to Discord!"
+        )
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -25,4 +30,4 @@ class OpenAIService(commands.Cog):
 
 
 async def setup(bot):
-    await bot.add_cog(OpenAIService(bot))
+    await bot.add_cog(MainCog(bot))

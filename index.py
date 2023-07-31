@@ -7,20 +7,10 @@ import discord
 from discord.ext import commands
 
 
-from dotenv import load_dotenv
+from utils.EnvironmentLoader import load_env
 
-try:
-    if sys.argv[1] == "prod":
-        print("Running in prod mode")
-        TOKEN = os.environ["DISCORD_TOKEN"]
-    else:
-        print("Running in dev mode")
-        load_dotenv()
-        TOKEN = os.getenv("DISCORD_TOKEN")
-except IndexError:
-    print("Running in dev mode")
-    load_dotenv()
-    TOKEN = os.getenv("DISCORD_TOKEN")
+env = load_env()
+TOKEN = env["DISCORD_TOKEN"]
 
 intents = discord.Intents.all()
 
@@ -29,7 +19,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 
 async def main():
-    await bot.load_extension("services.OpenAIService")
+    await bot.load_extension("cogs.MainCog")
     bot.run(TOKEN)
 
 
