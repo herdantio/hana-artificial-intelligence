@@ -1,6 +1,5 @@
-# import discord
+import openai
 from discord.ext import commands
-import os
 
 from utils.EnvironmentLoader import load_env
 
@@ -24,9 +23,24 @@ class MainCog(commands.Cog):
         if message.author == self.bot.user:
             return
 
-        await message.channel.send(
-            f"Message received from {message.author.name} with content: {message.content}"
-        )
+        prompt = [
+            {
+                "role": "system",
+                "content": "you are my female secretary who's helping me with my work. you are a gentle person who likes to help others.",
+            },
+            {
+                "role": "user",
+                "content": message.content,
+            },
+        ]
+        async with message.channel.typing():
+            res = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=prompt)
+        if res is not None:
+            await message.channel.send(
+                "\n".join([choice.message.content for choice in res.choices])
+            )
+        else:
+            await message.channel.send("Sorry, there was an error.")
 
 
 async def setup(bot):
