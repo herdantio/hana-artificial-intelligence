@@ -4,9 +4,6 @@ on:
     push:
         branches:
             - main
-    pull_request:
-        branches:
-            - main
 jobs:
     publish_to_docker:
         runs-on: ubuntu-latest
@@ -37,7 +34,7 @@ jobs:
                   port: ${{ secrets.SSH_PORT }}
                   script: |
                       echo "${{ secrets.DOCKER_PASSWORD }}" | sudo docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
-                      sudo docker rm -f $(docker ps -aq -f name=hana)
-                      sudo docker rmi $(docker images | grep 'panda01dev/hana' | awk '{print $3}')
+                      sudo docker rm -f hana-instance
+                      sudo docker rmi panda01dev/hana
                       sudo docker pull panda01dev/hana
                       sudo docker run -e DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }} -e DISCORD_GENERAL_CHANNEL_ID=${{ secrets.DISCORD_GENERAL_CHANNEL_ID}} -e OPENAI_KEY=${{ secrets.OPENAI_KEY }} -d --name hana-instance panda01dev/hana
