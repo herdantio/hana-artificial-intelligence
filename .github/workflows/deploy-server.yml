@@ -37,4 +37,4 @@ jobs:
                       sudo docker rm -f hana-instance
                       sudo docker rmi panda01dev/hana
                       sudo docker pull panda01dev/hana
-                      sudo docker run -e DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }} -e DISCORD_GENERAL_CHANNEL_ID=${{ secrets.DISCORD_GENERAL_CHANNEL_ID}} -e OPENAI_KEY=${{ secrets.OPENAI_KEY }} -d --restart always --name hana-instance panda01dev/hana
+                      sudo docker run -e DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }} -e DISCORD_GENERAL_CHANNEL_ID=${{ secrets.DISCORD_GENERAL_CHANNEL_ID}} -e OPENAI_KEY=${{ secrets.OPENAI_KEY }} -e SEARCH_ENDPOINT=${{ secrets.SEARCH_ENDPOINT }} -e SEARCH_API_KEY=${{ secrets.SEARCH_API_KEY }} -d --restart always --name hana-instance panda01dev/hana
