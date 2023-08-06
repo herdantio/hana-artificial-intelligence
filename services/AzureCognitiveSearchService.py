@@ -4,9 +4,7 @@ import uuid
 from azure.core.credentials import AzureKeyCredential
 from azure.search.documents import SearchClient
 
-from utils.EnvironmentLoader import load_env
-
-env = load_env()
+from utils import env
 
 index_name = "text-memory"
 # Get the service endpoint and API key from the environment

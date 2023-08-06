@@ -1,16 +1,12 @@
-import os
 import asyncio
-import sys
 
 import nest_asyncio
 import discord
 from discord.ext import commands
 import openai
 
+from utils import env
 
-from utils.EnvironmentLoader import load_env
-
-env = load_env()
 TOKEN = env["DISCORD_TOKEN"]
 openai.api_key = env["OPENAI_KEY"]
 

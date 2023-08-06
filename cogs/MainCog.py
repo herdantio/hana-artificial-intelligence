@@ -2,11 +2,10 @@ import openai
 from discord.ext import commands
 from datetime import datetime
 
-from utils.EnvironmentLoader import load_env
 from services import azureCognitiveSearch
 
 
-env = load_env()
+from utils import env
 
 DISCORD_GENERAL_CHANNEL_ID = env["DISCORD_GENERAL_CHANNEL_ID"]
 

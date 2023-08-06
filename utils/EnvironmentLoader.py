@@ -37,10 +37,10 @@ def load_prod():
 def load_env():
     try:
         if sys.argv[1] == "prod":
-            print("Running in prod mode")
+            print("Running in prod mode...")
             return load_prod()
         else:
-            print("Running in dev mode")
+            print("Running in dev mode...")
             return load_dev()
     except IndexError:
         print("Running in dev mode")
