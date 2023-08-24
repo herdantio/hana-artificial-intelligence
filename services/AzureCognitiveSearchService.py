@@ -38,5 +38,5 @@ class AzureCognitiveSearch:
     def search(self, query):
         assert query is not None
 
-        results = self.client.search(search_text=query)
+        results = self.client.search(search_text=query, include_total_count=True)
         return results

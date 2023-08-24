@@ -6,6 +6,12 @@ from services import azureCognitiveSearch
 
 
 from utils import env
+import logging
+
+logging.basicConfig(
+    level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+logger = logging.getLogger(__name__)
 
 DISCORD_GENERAL_CHANNEL_ID = env["DISCORD_GENERAL_CHANNEL_ID"]
 
@@ -48,9 +54,9 @@ class MainCog(commands.Cog):
                         "content": result["content"],
                     }
                 )
-                print(
-                    f"role: {result['role']}, content: {result['content']}, created: {datetime.fromtimestamp(result['created'])}"
-                )
+            print(
+                f"role: {result['role']}, content: {result['content']}, created: {datetime.fromtimestamp(result['created'])}"
+            )
             prompt.append(
                 {
                     "role": "user",
@@ -61,6 +67,7 @@ class MainCog(commands.Cog):
                 res = openai.ChatCompletion.create(
                     model="gpt-3.5-turbo", messages=prompt
                 )
+                logging.debug(res)
                 azureCognitiveSearch.upload_doc(DOCUMENT)
                 if len(res.choices) > 0:
                     azureCognitiveSearch.upload_doc(
@@ -69,7 +76,6 @@ class MainCog(commands.Cog):
                             "content": res.choices[0].message.content,
                         }
                     )
-            print(res)
             await message.channel.send(
                 "\n".join([choice.message.content for choice in res.choices])
             )
